@@ -23,6 +23,15 @@ val commonSettings = Seq(
       "scm:git:git@github.com:jeremyrsmith/patchless.git"
     )
   ),
+  pomExtra := {
+      <developers>
+        <developer>
+          <id>jeremyrsmith</id>
+          <name>Jeremy Smith</name>
+          <url>https://github.com/jeremyrsmith</url>
+        </developer>
+      </developers>
+  },
   publish <<= publish.dependsOn(test in Test)
 )
 

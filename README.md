@@ -9,10 +9,9 @@ It uses [shapeless](https://github.com/milessabin/shapeless) to derive `Patchabl
 
 ## Dependency
 
-Patchless is published to bintray – put this in your build.sbt:
+Patchless is published to Maven Central – put this in your build.sbt:
 
 ```scala
-resolvers += Resolver.bintrayRepo("jeremyrsmith", "maven")
 libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.1"
 ```
 
