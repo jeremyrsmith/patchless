@@ -13,7 +13,7 @@ Patchless is published to bintray – put this in your build.sbt:
 
 ```scala
 resolvers += Resolver.bintrayRepo("jeremyrsmith", "maven")
-libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.0"
+libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.1"
 ```
 
 ## Usage
@@ -88,7 +88,7 @@ Derived decoders and encoders are provided in the `patchless-circe` module.
 In build.sbt:
 
 ```scala
-libraryDependencies += "io.github.jeremyrsmith" %% "patchless-circe" % "1.0.0"
+libraryDependencies += "io.github.jeremyrsmith" %% "patchless-circe" % "1.0.1"
 ```
 
 There are two different imports, depending on how you're using circe. You need to have at least `circe-generic`, and
