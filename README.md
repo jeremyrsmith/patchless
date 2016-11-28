@@ -113,7 +113,7 @@ parsed(Foo("blah", 22)) // Foo("patched", 22)
 Configurable derivation is the same, but import `patchless.circe.extras._` instead; your implicit `Configuration` will
 be used to derive the decoders for `Patch` types.
 
-Encoders work the same way, but be aware that the JSON output depends on the printer used – particularlly, you'll
+Encoders work the same way, but be aware that the JSON output depends on the printer used – in particular, you'll
 typically want to `dropNullKeys` if you're outputting `Patch` values to JSON.
 
 ## License
