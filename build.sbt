@@ -15,7 +15,7 @@ val commonSettings = Seq(
     "org.scalatest" %% "scalatest" % versions.scalatest % "test",
     "org.scalacheck" %% "scalacheck" % versions.scalacheck % "test"
   ),
-  licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   homepage := Some(url("https://github.com/jeremyrsmith/patchless")),
   scmInfo := Some(
     ScmInfo(
@@ -23,8 +23,7 @@ val commonSettings = Seq(
       "scm:git:git@github.com:jeremyrsmith/patchless.git"
     )
   ),
-  publishTo := Some(Resolver.bintrayRepo("jeremyrsmith", "maven")),
-  publish <<= publish.dependsOn(test)
+  publish <<= publish.dependsOn(test in Test)
 )
 
 val `patchless-core` = project.settings(

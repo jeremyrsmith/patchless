@@ -1,25 +1,24 @@
 package patchless
 
-import scala.reflect.macros.whitebox
-
 import shapeless.labelled.{FieldType, field}
 import shapeless.ops.hlist.{Mapper, Zip}
 import shapeless._
 
-import scala.language.experimental.macros
-import scala.language.dynamics
 
 abstract class Patch[T] extends (T => T) {
-  final type Updates = patchable.Updates
-  val patchable: Patchable.Aux[T, U] forSome { type U <: HList }
+  type Updates <: HList
   def updates: Updates
 }
 
-object Patch extends Dynamic {
+object Patch {
 
-  def ofUpdates[T, U <: HList](up: U)(implicit p: Patchable.Aux[T, U]): Patch[T] = new Patch[T] {
-    val patchable = p
-    val updates = up
+  type Aux[T, U <: HList] = Patch[T] { type Updates = U }
+
+  def ofUpdates[T, U <: HList](up: U)(implicit
+    patchable: Patchable.Aux[T, U]
+  ): Aux[T, U] = new Patch[T] {
+    type Updates = U
+    val updates: U = up
     def apply(t: T): T = patchable(t, up)
   }
 
@@ -28,7 +27,7 @@ object Patch extends Dynamic {
     zip: Zip.Aux[L :: L :: HNil, Z],
     patchable: Patchable.Aux[T, U],
     mapper: Mapper.Aux[differences.type, Z, U]
-  ): Patch[T] = ofUpdates[T, U](mapper(zip(gen.to(a) :: gen.to(b) :: HNil)))
+  ): Aux[T, U] = ofUpdates[T, U](mapper(zip(gen.to(a) :: gen.to(b) :: HNil)))
 
 
   object differences extends Poly1 {

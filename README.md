@@ -76,9 +76,10 @@ def doPatchyStuff[T, U <: HList, A <: HList](patch: Patch[T])(implicit
 ```
 
 Also, be aware that `patchUpdates` involves a typecast; it's assumed that the `Updates` of the `Patch[T]` value has the
-same type as the `Patchable[T]` that is in implicit scope. This is usually a safe assumption, but it's not guaranteed
-to be safe – particularly when circe's configurable generic derivation is used. Make sure to use the same configuration
-throughout your project (which you should be doing anyway).
+same type as the `Patchable[T]` that is in implicit scope. This is usually a safe assumption, but it's not *guaranteed*
+to be safe. In an effort to make it as close as possible to a guarantee, `Patchable` is defined as `sealed`, which means
+that only the blessed derivations can ever be used to create it; these ought to be deterministic for a particular `T`,
+but Scala provides no way to express this and thus a typecast is still necessary.
 
 ## patchless-circe
 

@@ -3,7 +3,7 @@ package patchless
 import shapeless.labelled.{FieldType, field}
 import shapeless._
 
-trait Patchable[T] {
+sealed trait Patchable[T] {
   type Updates <: HList
   def apply(t: T, updates: Updates): T
 }
@@ -11,7 +11,7 @@ trait Patchable[T] {
 object Patchable {
   type Aux[T, U <: HList] = Patchable[T] { type Updates = U }
 
-  def apply[T](implicit patchable: Patchable[T]) = patchable
+  def apply[T](implicit patchable: Patchable[T]): Aux[T, patchable.Updates] = patchable
 
   implicit val hnil: Aux[HNil, HNil] = new Patchable[HNil] {
     final type Updates = HNil
