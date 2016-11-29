@@ -16,8 +16,17 @@ libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.1"
 ```
 
 ## Usage
-The core of patchless provides only one simple way to create a `Patch[T]` for any given `T`: the `Patch.diff[T]` static
-method:
+The core of patchless provides only tw0 simple way to create a `Patch[T]` for any given `T`:
+
+* The `apply` syntax (macro-driven):
+
+```scala
+import patchless.Patch
+case class Foo(a: String, b: Int, c: Boolean)
+val patch = Patch[Foo](b = 22)
+```
+
+* The `Patch.diff[T]` static method:
 
 ```scala
 case class Foo(a: String, b: Int, c: Boolean)
@@ -28,8 +37,8 @@ patch(a) // Foo("patched", 22, true)
 patch(Foo("wibble", 44, false)) // Foo("patched", 44, false)
 ```
 
-This alone is not all that useful, but the `patchless-circe` module provides decoders directly from JSON to `Patch[T]`.
-See [below](#patchless-circe) for details.
+Additionally, the `patchless-circe` module provides decoders directly from JSON to `Patch[T]`. See
+[below](#patchless-circe) for details.
 
 ### Using the patch fields
 The primary advantage of `Patch[T]` over simply `T => T` is that the updated fields can be accessed as a shapeless

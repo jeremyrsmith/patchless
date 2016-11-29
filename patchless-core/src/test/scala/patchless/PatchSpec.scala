@@ -13,6 +13,13 @@ class PatchSpec extends FreeSpec with Matchers {
 
     val patchable = Patchable[Foo]
 
+    "apply syntax" in {
+      val patch = Patch[Foo](a = "patched")
+      patch.patchUpdates shouldEqual Record(a = Some("patched"), b = None, c = None)
+
+      //val fail = Patch[Foo](nonExisting = "foo") // does not compile (correctly)
+    }
+
     "diff" in {
       val diff = Patch.diff(
         Foo("test", 22, true),

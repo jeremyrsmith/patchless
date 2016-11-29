@@ -8,7 +8,7 @@ val versions = new {
 }
 
 val commonSettings = Seq(
-  version := "1.0.1",
+  version := "1.0.2",
   scalaVersion := "2.11.8",
   organization := "io.github.jeremyrsmith",
   libraryDependencies ++= Seq(
@@ -37,7 +37,8 @@ val commonSettings = Seq(
 
 val `patchless-core` = project.settings(
   libraryDependencies ++= Seq(
-    "com.chuusai" %% "shapeless" % versions.shapeless
+    "com.chuusai" %% "shapeless" % versions.shapeless,
+    "org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided"
   ),
   commonSettings
 )
