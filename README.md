@@ -12,7 +12,7 @@ It uses [shapeless](https://github.com/milessabin/shapeless) to derive `Patchabl
 Patchless is published to Maven Central – put this in your build.sbt:
 
 ```scala
-libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.1"
+libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.2"
 ```
 
 ## Usage
@@ -96,7 +96,7 @@ Derived decoders and encoders are provided in the `patchless-circe` module.
 In build.sbt:
 
 ```scala
-libraryDependencies += "io.github.jeremyrsmith" %% "patchless-circe" % "1.0.1"
+libraryDependencies += "io.github.jeremyrsmith" %% "patchless-circe" % "1.0.2"
 ```
 
 There are two different imports, depending on how you're using circe. You need to have at least `circe-generic`, and
