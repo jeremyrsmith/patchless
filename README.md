@@ -16,7 +16,7 @@ libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.2"
 ```
 
 ## Usage
-The core of patchless provides only tw0 simple way to create a `Patch[T]` for any given `T`:
+The core of patchless provides only two simple way to create a `Patch[T]` for any given `T`:
 
 * The `apply` syntax (macro-driven):
 
@@ -100,7 +100,7 @@ libraryDependencies += "io.github.jeremyrsmith" %% "patchless-circe" % "1.0.2"
 ```
 
 There are two different imports, depending on how you're using circe. You need to have at least `circe-generic`, and
-you can also optionall use `circe-generic-extras` (which is marked as a provided dependency in case you don't use it).
+you can also optionally use `circe-generic-extras` (which is marked as a provided dependency in case you don't use it).
 
 You also need to be using automatic derivation for this to be of any use; it's not possible to derive a `Patch[T]` decoder
 for a semiauto or manual decoder of `T`.
