@@ -8,7 +8,7 @@ val versions = new {
 }
 
 val commonSettings = Seq(
-  version := "1.0.2",
+  version := "1.0.3",
   scalaVersion := "2.11.8",
   crossScalaVersions := Seq("2.11.8","2.12.1"),
   organization := "io.github.jeremyrsmith",

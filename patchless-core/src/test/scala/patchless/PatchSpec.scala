@@ -107,5 +107,11 @@ class PatchSpec extends FreeSpec with Matchers {
 
   }
 
+  "comparison" in {
+    case class Foo(a: Int, b: String)
+    Patch[Foo](a = 10) shouldEqual Patch[Foo](a = 10)
+    Patch[Foo](a = 10) shouldNot equal (Patch[Foo](a = 11))
+  }
+
 
 }

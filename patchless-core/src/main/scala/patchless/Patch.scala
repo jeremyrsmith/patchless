@@ -11,6 +11,11 @@ import scala.language.dynamics
 abstract class Patch[T] extends (T => T) {
   type Updates <: HList
   def updates: Updates
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case patch: Patch[_] => patch.updates == updates
+    case _ => false
+  }
 }
 
 object Patch extends Dynamic {
@@ -53,6 +58,7 @@ object Patch extends Dynamic {
   ) {
     def patchUpdates: U = patch.updates.asInstanceOf[U]
   }
+
 }
 
 // Macros to support patch Apply syntax
