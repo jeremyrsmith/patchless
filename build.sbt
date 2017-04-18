@@ -1,16 +1,16 @@
 name := "patchless"
 
 val versions = new {
-  val circe = "0.6.1"
+  val circe = "0.7.1"
   val shapeless = "2.3.2"
-  val scalatest = "3.0.0"
-  val scalacheck = "1.13.4"
+  val scalatest = "3.0.2"
+  val scalacheck = "1.13.5"
 }
 
 val commonSettings = Seq(
   version := "1.0.3",
-  scalaVersion := "2.11.8",
-  crossScalaVersions := Seq("2.11.8","2.12.1"),
+  scalaVersion := "2.11.11",
+  crossScalaVersions := Seq("2.11.11","2.12.2"),
   organization := "io.github.jeremyrsmith",
   libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % versions.scalatest % "test",
