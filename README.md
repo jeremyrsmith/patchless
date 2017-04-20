@@ -1,4 +1,8 @@
 # patchless
+[![Build Status](https://travis-ci.org/jeremyrsmith/patchless.svg?branch=master)](https://travis-ci.org/jeremyrsmith/patchless)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.jeremyrsmith/patchless/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.jeremyrsmith/patchless)
+
+
 
 **patchless** is a tiny Scala library which provides:
 
@@ -12,7 +16,7 @@ It uses [shapeless](https://github.com/milessabin/shapeless) to derive `Patchabl
 Patchless is published to Maven Central – put this in your build.sbt:
 
 ```scala
-libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.2"
+libraryDependencies += "io.github.jeremyrsmith" %% "patchless" % "1.0.4"
 ```
 
 ## Usage
