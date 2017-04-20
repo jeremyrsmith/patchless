@@ -1,6 +1,6 @@
 # patchless
 [![Build Status](https://travis-ci.org/jeremyrsmith/patchless.svg?branch=master)](https://travis-ci.org/jeremyrsmith/patchless)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.jeremyrsmith/patchless/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.jeremyrsmith/patchless)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.jeremyrsmith/patchless_2.11/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.jeremyrsmith/patchless_2.11)
 
 
 
