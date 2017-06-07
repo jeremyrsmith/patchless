@@ -10,8 +10,10 @@ import shapeless.record.Record
 
 class ConfigurablePatchJsonSpec extends FreeSpec with Matchers {
 
+
   "Configurable decoder" - {
     "Normal" in {
+      import io.circe.generic.extras.defaults._
       case class Foo(aString: String, bInt: Int, cBoolean: Boolean)
 
       def parsePatch(str: String) =
@@ -43,6 +45,7 @@ class ConfigurablePatchJsonSpec extends FreeSpec with Matchers {
     }
 
     "Options" in {
+      import io.circe.generic.extras.defaults._
       case class Foo(aString: Option[String])
       def parsePatch(str: String) =
         parse(str).valueOr(throw _).as[Patch[Foo]].valueOr(throw _)
