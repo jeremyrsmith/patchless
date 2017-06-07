@@ -1,15 +1,14 @@
-name := "patchless"
+import ReleaseTransformations._
 
 val versions = new {
-  val circe = "0.7.1"
+  val circe = "0.8.0"
   val shapeless = "2.3.2"
   val scalatest = "3.0.2"
   val scalacheck = "1.13.5"
 }
 
-val commonSettings = Seq(
-  version := "1.0.4",
-  scalaVersion := "2.11.11",
+inThisBuild(List(
+  scalaVersion := "2.12.2",
   crossScalaVersions := Seq("2.11.11","2.12.2"),
   organization := "io.github.jeremyrsmith",
   libraryDependencies ++= Seq(
@@ -25,34 +24,56 @@ val commonSettings = Seq(
     )
   ),
   pomExtra := {
-      <developers>
-        <developer>
-          <id>jeremyrsmith</id>
-          <name>Jeremy Smith</name>
-          <url>https://github.com/jeremyrsmith</url>
+    <developers>
+    <developer>
+    <id>jeremyrsmith</id>
+    <name>Jeremy Smith</name>
+    <url>https://github.com/jeremyrsmith</url>
         </developer>
-      </developers>
+    </developers>
   },
-  publish <<= publish.dependsOn(test in Test)
-)
+  releaseCrossBuild := true
+))
 
 val `patchless-core` = project.settings(
+  name := "patchless-core",
   libraryDependencies ++= Seq(
     "com.chuusai" %% "shapeless" % versions.shapeless,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided"
-  ),
-  commonSettings
+  )
 )
 
-val `patchless-circe` = project.settings(
-  libraryDependencies ++= Seq(
-    "io.circe" %% "circe-generic" % versions.circe,
-    "io.circe" %% "circe-generic-extras" % versions.circe % "provided,test",
-    "io.circe" %% "circe-parser" % versions.circe % "test"
-  ),
-  commonSettings
-) dependsOn `patchless-core`
+val `patchless-circe` = project.
+  settings(
+    name := "patchless-circe",
+    libraryDependencies ++= Seq(
+      "io.circe" %% "circe-generic" % versions.circe,
+      "io.circe" %% "circe-generic-extras" % versions.circe % "provided,test",
+      "io.circe" %% "circe-parser" % versions.circe % "test"
+    )
+  ).
+  dependsOn(`patchless-core`)
 
-val `patchless` = (project in file(".")).settings(commonSettings)
-  .dependsOn(`patchless-core`)
-  .aggregate(`patchless-core`, `patchless-circe`)
+val `patchless` = (project in file(".")).
+  settings(
+    name := "patchless",
+    publishArtifact := false,
+    publish := {},
+    publishLocal := {}
+  ).
+  aggregate(`patchless-core`, `patchless-circe`)
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+  setNextVersion,
+  commitNextVersion,
+  ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
+  pushChanges
+)
