@@ -1,15 +1,15 @@
 import ReleaseTransformations._
 
 val versions = new {
-  val circe = "0.8.0"
+  val circe = "0.9.0-M1"
   val shapeless = "2.3.2"
-  val scalatest = "3.0.2"
+  val scalatest = "3.0.3"
   val scalacheck = "1.13.5"
 }
 
 inThisBuild(List(
-  scalaVersion := "2.12.2",
-  crossScalaVersions := Seq("2.11.11","2.12.2"),
+  scalaVersion := "2.12.3",
+  crossScalaVersions := Seq("2.11.11","2.12.3"),
   organization := "io.github.jeremyrsmith",
   libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % versions.scalatest % "test",
