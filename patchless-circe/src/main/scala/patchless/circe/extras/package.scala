@@ -34,7 +34,8 @@ package object extras {
     config: Configuration
   ): DerivedDecoder[Patch[T]] = new DerivedDecoder[Patch[T]] {
     def apply(c: HCursor): Decoder.Result[Patch[T]] = decodeU.value.configuredDecode(c)(
-      config.transformKeys,
+      config.transformMemberNames,
+      config.transformConstructorNames,
       if(config.useDefaults) defaultMapper(defaults()) else Map.empty,
       config.discriminator
     ).map {
@@ -46,10 +47,12 @@ package object extras {
   implicit def encodePatch[T, U <: HList](implicit
     patchable: Patchable.Aux[T, U],
     encodeU: Lazy[ReprObjectEncoder[U]],
-    configuration: Configuration
+    config: Configuration
   ): DerivedObjectEncoder[Patch[T]] = new DerivedObjectEncoder[Patch[T]] {
     def encodeObject(a: Patch[T]): JsonObject = encodeU.value.configuredEncodeObject(a.patchUpdates)(
-      configuration.transformKeys, configuration.discriminator
+      config.transformMemberNames,
+      config.transformConstructorNames,
+      config.discriminator
     )
   }
 

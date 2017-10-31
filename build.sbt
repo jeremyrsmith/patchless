@@ -1,7 +1,7 @@
 import ReleaseTransformations._
 
 val versions = new {
-  val circe = "0.8.0"
+  val circe = "0.9.0-M1"
   val shapeless = "2.3.2"
   val scalatest = "3.0.3"
   val scalacheck = "1.13.5"
