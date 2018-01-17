@@ -84,7 +84,7 @@ class PatchMacros(ctx: scala.reflect.macros.whitebox.Context) extends RecordMacr
   }
 
   @tailrec
-  final def mkUpdates(T: Type, typ: Type, args: Map[String, Tree], current: List[Tree] = Nil):Tree = {
+  final def mkUpdates(T: Type, typ: Type, args: Map[String, Tree], current: List[Tree] = Nil): Tree = {
     typ match {
       case TypeRef(_, _, List(TypeRef(_, _, List(f @ RefinedType(List(_, TypeRef(_, _, List(ConstantType(Constant(k: String))))), _), v)), tail)) =>
         args.get(k) match {
