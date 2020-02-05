@@ -32,12 +32,12 @@ inThisBuild(List(
         </developer>
     </developers>
   },
-  publishTo := Some(Resolver.sonatypeRepo(if (isSnapshot.value) "snapshots" else "releases")),
   releaseCrossBuild := true
 ))
 
 val `patchless-core` = project.settings(
   name := "patchless-core",
+  publishTo := Some(Resolver.sonatypeRepo(if (isSnapshot.value) "snapshots" else "releases")),
   libraryDependencies ++= Seq(
     "com.chuusai" %% "shapeless" % versions.shapeless,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided"
@@ -47,6 +47,7 @@ val `patchless-core` = project.settings(
 val `patchless-circe` = project.
   settings(
     name := "patchless-circe",
+    publishTo := Some(Resolver.sonatypeRepo(if (isSnapshot.value) "snapshots" else "releases")),
     libraryDependencies ++= Seq(
       "io.circe" %% "circe-generic" % versions.circe,
       "io.circe" %% "circe-generic-extras" % versions.circe % "provided,test",
