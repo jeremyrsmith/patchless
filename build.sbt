@@ -1,13 +1,16 @@
 val versions = new {
-  val circe = "0.11.2"
+  val circe211 = "0.11.2"
+  val circe = "0.12.2"
   val shapeless = "2.3.3"
   val scalatest = "3.1.0"
   val scalacheck = "1.14.1"
 }
 
+val circeVersion = settingKey[String]("Circe version for the target Scala binary version")
+
 inThisBuild(List(
   scalaVersion := "2.11.12",
-  crossScalaVersions := Seq("2.11.12","2.12.10"),
+  crossScalaVersions := Seq("2.11.12","2.12.10","2.13.1"),
   organization := "io.github.jeremyrsmith",
   libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % versions.scalatest % "test",
@@ -43,11 +46,12 @@ val `patchless-core` = project.settings(
 
 val `patchless-circe` = project.settings(
   name := "patchless-circe",
-  publishTo := sonatypePublishToBundle.value, 
+  publishTo := sonatypePublishToBundle.value,
+  circeVersion := (if (scalaBinaryVersion.value == "2.11") versions.circe211 else versions.circe),
   libraryDependencies ++= Seq(
-    "io.circe" %% "circe-generic" % versions.circe,
-    "io.circe" %% "circe-generic-extras" % versions.circe % "provided,test",
-    "io.circe" %% "circe-parser" % versions.circe % "test"
+    "io.circe" %% "circe-generic" % circeVersion.value,
+    "io.circe" %% "circe-generic-extras" % circeVersion.value % "provided,test",
+    "io.circe" %% "circe-parser" % circeVersion.value % "test"
   )
 ).dependsOn(`patchless-core`)
 
