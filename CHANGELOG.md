@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## 1.0.7 - 2020-02-05
+* Added Scala 2.13.1 build
+* Updated circe to 0.12.12 (except for Scala 2.11)
+
+## 1.0.6 - 2020-02-05
 * Updated circe to 0.11.2
 * Updated scala 2.12 to 2.12.10
 
