@@ -83,14 +83,31 @@ class PatchMacros(ctx: scala.reflect.macros.whitebox.Context) extends RecordMacr
     q"_root_.patchless.Patch.ofUpdates[$T, $typ]($result)"
   }
 
+  private val FieldTypeSym = symbolOf[FieldType[_, _]]
+  private val AtAtSym = symbolOf[shapeless.tag.@@[_, _]]
+
   @tailrec
   final def mkUpdates(T: Type, typ: Type, args: Map[String, Tree], current: List[Tree] = Nil): Tree = {
     typ match {
-      case TypeRef(_, _, List(TypeRef(_, _, List(f @ RefinedType(List(_, TypeRef(_, _, List(ConstantType(Constant(k: String))))), _), v)), tail)) =>
-        args.get(k) match {
-          case Some(tree) => mkUpdates(T, tail, args - k, c.typecheck(q"_root_.shapeless.labelled.field[$f].apply(Some($tree):$v)") :: current)
-          case None => mkUpdates(T, tail, args, c.typecheck(q"_root_.shapeless.labelled.field[$f].apply(None:$v)") :: current)
+      case TypeRef(_, _, List(head, tail)) =>
+        val (field, key, value) = head match {
+          case TypeRef(_, _, List(f @ RefinedType(List(_, TypeRef(_, _, List(ConstantType(Constant(k: String))))), _), v)) =>
+            (f, k, v)
+          case TypeRef(_, FieldTypeSym, List(f @ TypeRef(_, AtAtSym, args), v)) =>
+            val k = args.collectFirst {
+              case ConstantType(Constant(k: String)) => k
+            }.getOrElse(c.abort(c.enclosingPosition, s"Couldn't find literal string type in $f (expected a string with the field name to tag the value in the record)"))
+            (f, k, v)
+          case typ =>
+            val t = typ
+            c.abort(c.enclosingPosition, s"Couldn't make an update field for $typ (is it a field type?)")
         }
+
+        args.get(key) match {
+          case Some(tree) => mkUpdates(T, tail, args - key, c.typecheck(q"_root_.shapeless.labelled.field[$field].apply(Some($tree):$value)") :: current)
+          case None => mkUpdates(T, tail, args, c.typecheck(q"_root_.shapeless.labelled.field[$field].apply(None:$value)") :: current)
+        }
+
       case t if t <:< weakTypeOf[shapeless.HNil] =>
         args.headOption.foreach {
           case (name, arg) => c.abort(arg.pos, s"$T has no field $name")
@@ -98,6 +115,8 @@ class PatchMacros(ctx: scala.reflect.macros.whitebox.Context) extends RecordMacr
         current.foldLeft(q"_root_.shapeless.HNil":Tree) {
           (accum, next) => q"_root_.shapeless.::($next, $accum)"
         }
+      case typ =>
+        c.abort(c.enclosingPosition, s"Couldn't make updates for type $typ (is it an HList of field types?)")
     }
   }
 }
