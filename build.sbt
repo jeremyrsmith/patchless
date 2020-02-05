@@ -32,6 +32,7 @@ inThisBuild(List(
         </developer>
     </developers>
   },
+  publishTo := Some(Resolver.sonatypeRepo(if (isSnapshot.value) "snapshots" else "releases")),
   releaseCrossBuild := true
 ))
 
@@ -59,7 +60,8 @@ val `patchless` = (project in file(".")).
     name := "patchless",
     publishArtifact := false,
     publish := {},
-    publishLocal := {}
+    publishLocal := {},
+    skip in publish := true
   ).
   aggregate(`patchless-core`, `patchless-circe`)
 
