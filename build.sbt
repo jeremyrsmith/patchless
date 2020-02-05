@@ -1,5 +1,3 @@
-import ReleaseTransformations._
-
 val versions = new {
   val circe = "0.11.2"
   val shapeless = "2.3.3"
@@ -31,30 +29,27 @@ inThisBuild(List(
     <url>https://github.com/jeremyrsmith</url>
         </developer>
     </developers>
-  },
-  releaseCrossBuild := true
+  }
 ))
 
 val `patchless-core` = project.settings(
   name := "patchless-core",
-  publishTo := Some(Resolver.sonatypeRepo(if (isSnapshot.value) "snapshots" else "releases")),
+  publishTo := sonatypePublishToBundle.value, 
   libraryDependencies ++= Seq(
     "com.chuusai" %% "shapeless" % versions.shapeless,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided"
   )
 )
 
-val `patchless-circe` = project.
-  settings(
-    name := "patchless-circe",
-    publishTo := Some(Resolver.sonatypeRepo(if (isSnapshot.value) "snapshots" else "releases")),
-    libraryDependencies ++= Seq(
-      "io.circe" %% "circe-generic" % versions.circe,
-      "io.circe" %% "circe-generic-extras" % versions.circe % "provided,test",
-      "io.circe" %% "circe-parser" % versions.circe % "test"
-    )
-  ).
-  dependsOn(`patchless-core`)
+val `patchless-circe` = project.settings(
+  name := "patchless-circe",
+  publishTo := sonatypePublishToBundle.value, 
+  libraryDependencies ++= Seq(
+    "io.circe" %% "circe-generic" % versions.circe,
+    "io.circe" %% "circe-generic-extras" % versions.circe % "provided,test",
+    "io.circe" %% "circe-parser" % versions.circe % "test"
+  )
+).dependsOn(`patchless-core`)
 
 val `patchless` = (project in file(".")).
   settings(
@@ -66,22 +61,3 @@ val `patchless` = (project in file(".")).
   ).
   aggregate(`patchless-core`, `patchless-circe`)
 
-
-val publishSigned = (state: State) =>
-  state.copy(remainingCommands = Exec("publishSigned", None) +: state.remainingCommands)
-val releaseAll = (state: State) =>
-  state.copy(remainingCommands = Exec("sonatypeReleaseAll", None) +: state.remainingCommands)
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  runClean,
-  runTest,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
-  ReleaseStep(publishSigned, enableCrossBuild = true),
-  setNextVersion,
-  commitNextVersion,
-  ReleaseStep(releaseAll, enableCrossBuild = true),
-  pushChanges
-)
