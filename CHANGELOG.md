@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Updated circe to 0.11.2
+* Updated scala 2.12 to 2.12.10
 
 ## 1.0.5 - 2018-03-27
 * Updated circe to 0.9.0

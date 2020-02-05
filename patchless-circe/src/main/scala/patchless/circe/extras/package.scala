@@ -18,13 +18,10 @@ package object extras {
     */
   implicit def decodeOptionOption[T](
     implicit decodeOpt: Decoder[Option[T]]
-  ) : Decoder[Option[Option[T]]] = {
-    Decoder.instance {
-      cursor => if(cursor.focus == Json.Null) {
-        Right(Some(None))
-      } else decodeOpt.apply(cursor).map(Some(_))
+  ) : Decoder[Option[Option[T]]] =
+    Decoder.withReattempt {
+      c => if (c.succeeded) c.as[Option[T]].map(Some(_)) else Right(None)
     }
-  }
 
   implicit def decodePatch[T, U <: HList, D <: HList](implicit
     patchable: Patchable.Aux[T, U],

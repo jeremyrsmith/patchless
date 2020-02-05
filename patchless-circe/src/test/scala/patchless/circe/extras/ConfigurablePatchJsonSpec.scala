@@ -29,7 +29,7 @@ class ConfigurablePatchJsonSpec extends FreeSpec with Matchers {
     }
 
     "Snake case" in {
-      implicit val configuration = Configuration.default.withSnakeCaseKeys
+      implicit val configuration = Configuration.default.withSnakeCaseMemberNames
       case class Foo(aString: String, bInt: Int, cBoolean: Boolean)
 
       def parsePatch(str: String) =
